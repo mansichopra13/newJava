@@ -42,7 +42,7 @@ class DBHandler
 		try {
 			ods = new OracleDataSource();
 			ods.setURL("jdbc:oracle:thin:@localhost:1521:xe");
-			con=ods.getConnection("keshav","icsd");
+			con=ods.getConnection("JavaDb","icsd");
 			System.out.println("connection established successfully");
 		} catch (SQLException e) {
 			
