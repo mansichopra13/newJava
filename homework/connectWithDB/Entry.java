@@ -1,6 +1,9 @@
 package homework.connectWithDB;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 
 import oracle.jdbc.pool.OracleDataSource;
 
@@ -8,10 +11,19 @@ import oracle.jdbc.pool.OracleDataSource;
 public class Entry {
     public static void main (String [] args){
         DBHandler objDH=new DBHandler();
-        switch(1){
+        switch(3){
             case 1:
             objDH.insertIntoTblEmp(100,"mansi",21,"delhi",98000);
             break;
+            case 2:
+			objDH.deleteFromTblEmpByEmpno(3);
+			break;
+		    case 3:
+			objDH.udpateTblEmp(100	, "abc",21, "chd", 78450);
+			break;
+		    case 4:
+			objDH.dispEmp();
+			break;
         }
     }
 }
@@ -26,6 +38,93 @@ public class Entry {
 // );
 
 class DBHandler{
+
+    public Connection getDBCon(){
+        OracleDataSource ods;
+        Connection con =null;
+
+        try {
+            ods = new OracleDataSource();
+            ods.setURL("jdbc:oracle:thin:@localhost:1521:xe");
+            con=ods.getConnection("JavaDb","icsd");
+            System.out.println("Connection established successfully");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return con;
+    }
+
+    public void dispEmp(){
+        Connection con =getDBCon();
+        try {
+            PreparedStatement stmt = con.prepareStatement("select * from tblemp");
+            ResultSet rset = stmt.executeQuery();
+            //rset is like a pointer which points to the first row of the result of query
+            while(rset.next())//it read current record and record pointer moves to next record
+            {
+                String strEmpno,strEname,strEage,strEadd,strEsal;
+                strEmpno=rset.getString("empno");
+                strEname=rset.getString("ename");
+                strEage=rset.getString("eage");
+                strEadd=rset.getString("eadd");
+                strEsal=rset.getString("esal");
+
+                System.out.println(strEmpno+" "+strEname+" "+strEage+" "+strEadd+" "+strEsal);
+
+            }
+            con.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    	public void udpateTblEmp(int empno, String ename, int eage, String eadd, double esal)
+	{
+		Connection con=getDBCon();
+		try {
+			PreparedStatement stmt=con.prepareStatement("update tblemp set ename=?,eage=?,eadd=?,esal=? where empno=?");
+			
+			stmt.setString(1, ename);
+			stmt.setInt(2, eage);
+			stmt.setString(3, eadd);
+			stmt.setDouble(4, esal);
+			stmt.setInt(5, empno);
+			
+			stmt.executeUpdate();
+			
+			System.out.println("data updated ");
+			con.close();
+			
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
+	}
+
+   	public void deleteFromTblEmpByEmpno(int empno)
+	{
+		//1 Establish the conenction with data base
+		Connection con=getDBCon();
+		//2 specify your objective
+		try {
+			PreparedStatement stmt=con.prepareStatement("delete from tblemp where empno=?");
+			//3 pass the parametr if any
+			stmt.setInt(1, empno);
+			//4 execute your query
+			// I D U=- executeUpdate();
+			
+			stmt.executeUpdate();
+			//5 close your connection 
+			con.close();
+			System.out.println("Data deleted");
+			
+		} catch (SQLException e) {
+		
+			e.printStackTrace();
+		}
+	}
+
     public void insertIntoTblEmp( int empno,String strEname,int eage,String eadd,int esal){
         // 1 establish the connection with db
         //wehave to provide ojdbc6.jar to java envt.
@@ -60,10 +159,13 @@ class DBHandler{
             //closing
             stmt.close();
             con.close();
-        } catch (Exception e) {
+        } catch (SQLException e) {
            e.printStackTrace(); // Shows full error for debugging
             // System.out.println(e.getMessage());
         }
     }
+
+
+
 }
 
