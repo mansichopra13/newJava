@@ -33,6 +33,7 @@ class DBHandler{
         //D:\oraclesetup\sqldeveloper-3.2.09.30\sqldeveloper\jdbc\lib
 
         //OracleDataSource ods = new OracleDataSource();
+        // OracleDataSource is a class provided by the Oracle JDBC Driver (ojdbc) that implements the javax.sql.DataSource interface.
         OracleDataSource ods;
         try {
             ods=new OracleDataSource();
@@ -42,6 +43,8 @@ class DBHandler{
             Connection con =ods.getConnection("JavaDb","icsd");//Person p1=new SM();
             System.out.println("connection established successfully");
             //2 specify your objective - insert,delete,update,select
+            //A PreparedStatement in Java is a feature of JDBC that allows you to execute parameterized SQL queries.
+            //  placeholders (?) for parameters instead of hardcoding values directly. values will be provided later using setter methods like setInt(), setString()
             PreparedStatement stmt = con.prepareStatement("insert into tblemp values(?,?,?,?,?)");
             //3 pass parameters if any
             stmt.setInt(1,empno);
@@ -53,9 +56,13 @@ class DBHandler{
             // i,d,u executeUpdate();
             // select executeQuery();
             stmt.executeUpdate();
+            System.out.println("Insert successful");
+            //closing
+            stmt.close();
+            con.close();
         } catch (Exception e) {
-           
-            System.out.println(e.getMessage());
+           e.printStackTrace(); // Shows full error for debugging
+            // System.out.println(e.getMessage());
         }
     }
 }
