@@ -1,5 +1,5 @@
 package patterns;
-
+//right aligned triangle
 public class Pattern5 {
     public static void main(String [] args)
     {

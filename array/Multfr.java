@@ -5,9 +5,10 @@ public class Multfr {
     public static void main (String [] args)
     {
         int [][] team = {{2,3,5},{7,8,9}};
-        for (int i=0;i<team.length;i++);
+        int i;
+        for (i=0;i<=team.length-1;i++)
         {
-            for (int j=0;j<team.length;j++)
+            for (int j=0;j<=team[i].length-1;j++)
             {
                 System.out.println(team[i][j]);
             }

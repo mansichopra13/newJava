@@ -1,3 +1,4 @@
+//pick the smallest from unsorted and put it in the beginning
 public class Selection {
     public static void selectionSort(int arr[])
     {

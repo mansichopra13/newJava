@@ -1,5 +1,5 @@
 package patterns;
-
+//01010101
 public class Pattern9 {
     public static void main(String [] args)
     {

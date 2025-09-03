@@ -1,5 +1,5 @@
 package patterns;
-
+//left aligned 1 12 123 1234...
 public class Pattern6 {
     public static void main(String [] args)
     {

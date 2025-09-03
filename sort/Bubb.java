@@ -1,5 +1,5 @@
 package sort;
-
+//pushing the bigger one at last by swaping
 public class Bubb {
     public static void bubbleSort(int arr[])
     {

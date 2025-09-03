@@ -1,5 +1,5 @@
 package patterns;
-
+//left alined triagle
 public class Pattern3 {
     public static void main(String [] args)
     {
